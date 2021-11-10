@@ -1,0 +1,21 @@
+POST http://82.156.28.204:8081/file-receive/create
+Content-Type: application/json
+
+{
+  "ddl": "2021-11-09 12:31",
+  "jsonNameRules": {
+    "title":"默认规则",
+    "rule":[
+      {
+        "changeAble":true,
+        "value":"学号"
+      }
+    ]
+  },
+  "num": 90,
+  "numCommit": 0,
+  "uid": 1,
+  "zipName": "qwq"
+}
+
+###
