@@ -1,37 +1,20 @@
 <template>
-  <div>
-    <div class="currentRules">
-      <h1 class="title">现有规则</h1>
-      <ul style="list-style: none">
-        <li v-for="(r, index) in nameRules" v-bind:key="index">
-          {{r.title}}：
-          <el-tag v-for="(t, index) in r.rule"
-                  v-bind:key="index"
-                  :type="t.changeAble ? '' : 'success'"
-                  style="margin-left: 5px;margin-bottom: 15px"
-          >{{t.value}}</el-tag>
-          <el-button type="text" style="margin-left: 20px" @click="deleteRule(index)">删除</el-button>
-        </li>
-      </ul>
-    </div>
-    <el-divider></el-divider>
-    <div class="createRule">
-      <h1 class="title">新建规则</h1>
-      <div style="margin: 10px 10px 10px 10px;">
-        <el-row :gutter="0">
-          <el-col :span="6">
-            <div class="grid-content bg-purple" style="margin-left: 30px">
-              <el-input placeholder="规则名称" v-model="newRule.title" class="newRuleNameInput"></el-input>
-            </div>
-          </el-col>
-          <el-col :span="16">
-            <div class="grid-content bg-purple"
-                 style="width: 100%;
+  <div class="createRule">
+    <div style="margin: -20px 10px 10px 10px;">
+      <el-row :gutter="0">
+        <el-col :span="6">
+          <div class="grid-content bg-purple">
+            <el-input placeholder="规则名称" v-model="newRule.title" class="newRuleNameInput"></el-input>
+          </div>
+        </el-col>
+        <el-col :span="18">
+          <div class="grid-content bg-purple"
+               style="width: 100%;
                  height: 40px;
                  border: 1px solid #88C2FF;
                  border-top-right-radius: 8px;
                  border-bottom-right-radius: 8px">
-              <div>
+            <div>
                 <span v-if="newRule.rule.length === 0"
                       style="line-height: 40px;
                       margin-left: 10px;
@@ -40,7 +23,7 @@
                       cursor: default">
                   点击下方标签添加字段
                 </span>
-                <span v-else style="line-height: 36px">
+              <span v-else style="line-height: 36px">
                   <el-tag v-for="(t, index) in newRule.rule"
                           disable-transitions
                           closable
@@ -50,19 +33,19 @@
                           style="margin-left: 5px;margin-bottom: 15px"
                   >{{t.value}}</el-tag>
                 </span>
-                <el-button type="primary"
-                           style="border-top-left-radius: 0;
+              <el-button type="primary"
+                         style="border-top-left-radius: 0;
                            border-bottom-left-radius: 0;
                            float: right" :disabled="newRule.rule.length === 0 || newRule.title === '' "
-                           @click="addRule">点击新建</el-button>
-              </div>
+                         @click="addToRule">点击新建</el-button>
+            </div>
 
 
           </div></el-col>
-        </el-row>
-      </div>
-      <div>
-        <span class="newRuleDiv">
+      </el-row>
+    </div>
+    <div>
+      <span class="newRuleDiv">
         <div>
           动态字段
         </div>
@@ -88,8 +71,8 @@
         </el-input>
         <el-button v-else class="button-new-tag" size="small" @click="showInput('dynamic')">+ 新标签</el-button>
       </span>
-        <el-divider direction="vertical"></el-divider>
-        <span class="newRuleDiv">
+      <el-divider direction="vertical"></el-divider>
+      <span class="newRuleDiv">
         <div>
           静态字段
         </div>
@@ -116,15 +99,15 @@
         </el-input>
         <el-button v-else class="button-new-tag" size="small" @click="showInput('static')">+ 新标签</el-button>
       </span>
-      </div>
-
     </div>
+
   </div>
 </template>
 
 <script>
 export default {
-  name: "NameRule",
+  name: "CreateRule",
+  props:['addRule'],
   data(){
     return {
       newRule:{
@@ -137,57 +120,6 @@ export default {
         rule:[
         ]
       },
-      form: {},
-      nameRules:[
-          {
-            title:'默认规则',
-            rule:[
-              {
-                changeAble:true,
-                value:'学号'
-              },
-              {
-                changeAble: false,
-                value: '-'
-              },
-              {
-                changeAble: true,
-                value: '姓名'
-              },
-              {
-                changeAble: false,
-                value: '-'
-              },
-              {
-                changeAble: false,
-                value: '作业'
-              }
-            ]
-          },{
-          title: '光网络技术',
-          rule:[
-            {
-              changeAble: false,
-              value: '#'
-            },
-            {
-              changeAble: true,
-              value: '班级'
-            },
-            {
-              changeAble: true,
-              value: '姓名'
-            },
-            {
-              changeAble: true,
-              value: '学号'
-            },
-            {
-              changeAble: false,
-              value: '光网络技术'
-            }
-          ]
-        }],
       dynamicTags: ['动态一', '动态二', '动态三'],
       staticTags: ['静态一', '静态二', '静态三'],
       staticTagsInputVisible: false,
@@ -197,19 +129,13 @@ export default {
     }
   },
   methods:{
-
-    // 现有规则部分的函数
-    deleteRule(index){
-      console.log(index)
-      this.nameRules.splice(index,1)
-    },
+    // 新建规则部分的函数
     handleTagsClose(stable, tag) {
       if (stable === 'dynamic')
         this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
       else
         this.staticTags.splice(this.staticTags.indexOf(tag), 1);
     },
-    // 新建规则部分的函数
     buttonClickAutoBur(e){
       let target = e.target
       if (target.nodeName === 'SPAN') target = e.target.parentNode
@@ -253,12 +179,15 @@ export default {
     deleteTag(index){
       this.newRule.rule.splice(index, 1);
     },
-    addRule(){
-      this.nameRules.push(this.newRule)
-      this.newRule=this.emptyRule
+    addToRule(){
+      let rule = JSON.stringify(this.newRule)
+      this.newRule.title=''
+      this.newRule.rule=[]
+      //console.log(rule)
+      this.addRule(rule)
     }
-  },
 
+  }
 }
 </script>
 
@@ -289,7 +218,7 @@ export default {
   }
   .newRuleDiv{
     display: inline-block;
-    width: 490px;
+    width: 500px;
     vertical-align: top;
   }
   /deep/.newRuleNameInput .el-input__inner{

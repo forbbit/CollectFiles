@@ -10,16 +10,12 @@
       <el-tab-pane label="新建收取">
         <create-collect/>
       </el-tab-pane>
-      <el-tab-pane label="命名规则">
-        <name-rule/>
-      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
 import CreateCollect from "@/components/CreateCollect.vue";
-import NameRule from "@/components/NameRule";
 import CollectingList from "@/components/CollectingList";
 import CollectCompleteList from "@/components/CollectCompleteList";
 export default {
@@ -27,7 +23,6 @@ export default {
   components:{
     CollectCompleteList,
     CreateCollect,
-    NameRule,
     CollectingList
   }
 }
