@@ -2,81 +2,155 @@
   <div>
     <el-row class="header">
       <el-col :span="21">
-        <el-menu :default-active="$route.name" class="el-menu-demo" mode="horizontal" router >
-          <el-menu-item><img src="../assets/logo.png" class="headerLogo" alt="logo"></el-menu-item>
-          <el-menu-item index="IndexContent" :route="{path:'/'}" name="indexContent" >主页</el-menu-item>
-          <el-menu-item index="About" :route="{path:'/about'}">关于</el-menu-item>
-          <el-menu-item index="HandIn" :route="{path:'/handIn'}">交文件</el-menu-item>
-          <el-menu-item index="Collect" :route="{path:'/collect'}" v-show="IsLogin">收文件</el-menu-item>
+        <el-menu
+          :default-active="$route.name"
+          class="el-menu-demo"
+          mode="horizontal"
+          router
+        >
+          <el-menu-item
+            ><img src="../assets/logo.png" class="headerLogo" alt="logo"
+          /></el-menu-item>
+          <el-menu-item
+            index="IndexContent"
+            :route="{ path: '/' }"
+            name="indexContent"
+            >主页</el-menu-item
+          >
+          <el-menu-item index="About" :route="{ path: '/about' }"
+            >关于</el-menu-item
+          >
+          <el-menu-item index="HandIn" :route="{ path: '/handIn' }"
+            >交文件</el-menu-item
+          >
+          <el-menu-item
+            index="Collect"
+            :route="{ path: '/collect' }"
+            v-show="IsLogin"
+            >收文件</el-menu-item
+          >
         </el-menu>
       </el-col>
       <el-col :span="3" class="loginButtonGroup test">
         <div v-show="!IsLogin">
-          <el-button round size="mini" @click="drawer = true">登录</el-button>
-          <el-button round size="mini">注册</el-button>
+          <el-button round size="mini" @click="login" type="primary"
+            >登录</el-button
+          >
+          <el-button round size="mini" @click="drawer2 = true" type="primary"
+            >注册</el-button
+          >
         </div>
         <div v-show="IsLogin">
-          欢迎！{{UserId}}
+          欢迎！{{ Username }}
+          <el-button round size="mini" @click="loginout" type="primary"
+            >退出登录</el-button
+          >
         </div>
       </el-col>
     </el-row>
-    <el-drawer
-        title="我是标题"
-        :visible.sync="drawer"
-        :with-header="false">
+
+    <el-drawer title="登陆界面" :visible.sync="drawer" :direction="direction">
       <span>
-        <login-form/>
+        <login-in
+          :drawer="drawer"
+          @changed2="xchange2"
+          ref="loginin"
+        ></login-in>
+      </span>
+    </el-drawer>
+
+    <el-drawer title="注册界面" :visible.sync="drawer2" :direction="direction2">
+      <span>
+        <regis-ter
+          v-bind:drawer2="drawer2"
+          v-on:changed="xchange($event)"
+        ></regis-ter>
       </span>
     </el-drawer>
   </div>
-
 </template>
 
 <script>
-import LoginForm from "@/components/LoginForm";
+import LoginIn from "./LoginIn.vue";
+import RegisTer from "./RegisTer.vue";
 export default {
+  components: { LoginIn, RegisTer },
   name: "IndexHeader",
-  components:{
-    LoginForm
-  },
   data() {
     return {
-      UserId: "20210007",
-      IsLogin: true,
-      drawer: false
+      drawer: false,
+      drawer2: false,
+      direction: "rtl",
+      direction2: "rtl",
+      UserId: "",
+      Username: "",
+      IsLogin: false,
     };
   },
   methods: {
-
-  }
-}
+    login() {
+      this.drawer = true;
+      //在表单渲染后获取登录验证码
+      this.$nextTick(() => {
+        this.$refs.loginin.getcode();
+      });
+    },
+    loginout() {
+      this.IsLogin = !this.IsLogin;
+      this.$axios({
+        method: "post",
+        url: "/logout",
+        //headers: {'content-type':'application/x-www-form-urlencoded'},
+      })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err.response));
+    },
+    xchange(msg) {
+      this.drawer2 = msg;
+    },
+    xchange2(msg1, msg2, msg3) {
+      if (msg2) {
+        //成功时需要显示用户id
+        this.drawer = msg1;
+        this.IsLogin = !this.IsLogin;
+        //保留用户id
+        this.UserId = msg2;
+        // console.log(this.UserId)
+        //显示用户名
+        this.Username = msg3;
+      } else {
+        //失败时直接返回原界面
+        this.drawer = msg1;
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>
-
-  .loginButtonGroup, .headerLogo{
-    line-height: 60px;
-    text-align: center;
-  }
-  .headerLogo{
-    height: 100%;
-  }
-  .el-menu-demo{
-    height: 40px;
-    background-color:rgba(0,0,0,0);
-
-  }
-  /* 点击出来的下划线进行隐藏 */
-  .el-menu-item.is-active {
-    border-bottom: none!important;
-    color: rgba(0,0,0,0);
-  }
-  /* 点击出来的下划线动效残留进行隐藏 */
-  .el-menu--horizontal>.el-menu-item{
-    border-bottom: none;
-  }
-  /* 整体的下划线进行隐藏 */
-  .el-menu.el-menu--horizontal{
-    border-bottom: none;
-  }
+.loginButtonGroup,
+.headerLogo {
+  line-height: 60px;
+  text-align: center;
+}
+.headerLogo {
+  height: 100%;
+}
+.el-menu-demo {
+  height: 40px;
+  background-color: rgba(0, 0, 0, 0);
+}
+/* 点击出来的下划线进行隐藏 */
+.el-menu-item.is-active {
+  border-bottom: none !important;
+  color: rgba(0, 0, 0, 0);
+}
+/* 点击出来的下划线动效残留进行隐藏 */
+.el-menu--horizontal > .el-menu-item {
+  border-bottom: none;
+}
+/* 整体的下划线进行隐藏 */
+.el-menu.el-menu--horizontal {
+  border-bottom: none;
+}
 </style>
