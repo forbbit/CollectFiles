@@ -50,13 +50,13 @@
               vertical-align: middle;
             "
             :src="url"
-            @click="getcode"
+            @click="getCode"
           ></el-image>
         </div>
       </el-form-item>
 
       <el-form-item style="text-align: center">
-        <el-button type="primary" @click="loginin">登录</el-button>
+        <el-button type="primary" @click="login">登录</el-button>
         <el-button type="info" @click="reset">重置</el-button>
       </el-form-item>
     </el-form>
@@ -98,27 +98,7 @@ export default {
     reset() {
       this.$refs.form.resetFields();
     },
-
-    //提示：方案一
-    trueclose() {
-      //成功返回操作
-      //关闭提示，重新加载表单
-      this.trueshow = !this.trueshow;
-      this.formshow = !this.formshow;
-      this.$refs.form.resetFields();
-      //关闭登录页
-      this.$emit("changed2", false, this.id);
-    },
-    falseclose() {
-      //失败返回操作
-      //关闭提示，重新加载表单
-      this.falseshow = !this.falseshow;
-      this.formshow = !this.formshow;
-      //重置注册数据
-      this.$refs.form.resetFields();
-    },
-
-    getcode() {
+    getCode() {
       //获取验证码
       this.$axios({
         method: "get",
@@ -138,7 +118,7 @@ export default {
         }
       );
     },
-    loginin() {
+    login() {
       //点击登录对表单进行预验证并进行加载
       this.loading = !this.loading;
       this.$refs.form.validate((vaild) => {

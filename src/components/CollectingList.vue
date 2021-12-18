@@ -149,8 +149,6 @@ export default {
     setItemText(scope){
       return () => {return scope.row.currentNumber+'/'+scope.row.totalNumber}
     },
-
-
   },
   computed:{
 

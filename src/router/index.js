@@ -6,7 +6,7 @@ import HandIn from "@/pages/HandIn";
 import Collect from "@/pages/Collect";
 
 export default new VueRouter({
-    //mode:'history',
+    mode:'history',
     routes:[
         {
             path:'/',

@@ -41,8 +41,8 @@
           >
         </div>
         <div v-show="IsLogin">
-          欢迎！{{ Username }}
-          <el-button round size="mini" @click="loginout" type="primary"
+          {{ UserName }}
+          <el-button round size="mini" @click="logout" type="primary"
             >退出登录</el-button
           >
         </div>
@@ -51,30 +51,30 @@
 
     <el-drawer title="登陆界面" :visible.sync="drawer" :direction="direction">
       <span>
-        <login-in
+        <login
           :drawer="drawer"
           @changed2="xchange2"
-          ref="loginin"
-        ></login-in>
+          ref="login"
+        ></login>
       </span>
     </el-drawer>
 
     <el-drawer title="注册界面" :visible.sync="drawer2" :direction="direction2">
       <span>
-        <regis-ter
+        <register
           v-bind:drawer2="drawer2"
           v-on:changed="xchange($event)"
-        ></regis-ter>
+        ></register>
       </span>
     </el-drawer>
   </div>
 </template>
 
 <script>
-import LoginIn from "./LoginIn.vue";
-import RegisTer from "./RegisTer.vue";
+import Login from "./Login.vue";
+import Register from "./Register.vue";
 export default {
-  components: { LoginIn, RegisTer },
+  components: { Login, Register },
   name: "IndexHeader",
   data() {
     return {
@@ -83,7 +83,7 @@ export default {
       direction: "rtl",
       direction2: "rtl",
       UserId: "",
-      Username: "",
+      UserName: "",
       IsLogin: false,
     };
   },
@@ -92,10 +92,10 @@ export default {
       this.drawer = true;
       //在表单渲染后获取登录验证码
       this.$nextTick(() => {
-        this.$refs.loginin.getcode();
+        this.$refs.login.getCode();
       });
     },
-    loginout() {
+    logout() {
       this.IsLogin = !this.IsLogin;
       this.$axios({
         method: "post",
@@ -117,13 +117,13 @@ export default {
         this.UserId = msg2;
         // console.log(this.UserId)
         //显示用户名
-        this.Username = msg3;
+        this.UserName = msg3;
       } else {
         //失败时直接返回原界面
         this.drawer = msg1;
       }
     },
-  },
+  }
 };
 </script>
 
