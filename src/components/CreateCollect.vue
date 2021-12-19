@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" v-loading="loading">
     <el-form ref="form" :model="form" label-width="100px" label-position="left">
       <el-form-item label="收取项名称">
         <el-input v-model="form.name" @blur="setDefaultNameRule"></el-input>
@@ -19,22 +19,20 @@
         </ul>
         <el-button type="text" @click="dialogVisible = true">+ 自定义</el-button>
       </el-form-item>
-      <el-form-item label="日期范围">
+      <el-form-item label="截止日期">
         <el-date-picker
-            value-format="yyyy-MM-DD HH:mm"
-            v-model="dateTimerRange"
-            type="datetimerange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期">
+            v-model="ddl"
+            type="datetime"
+            placeholder="选择日期时间"
+            value-format="yyyy-MM-dd HH:mm">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="人数（选填）">
+      <el-form-item label="共计人数">
         <el-input v-model="form.number" style="width: 200px"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">立即创建</el-button>
-        <el-button>清空</el-button>
+        <el-button>帮助</el-button>
       </el-form-item>
     </el-form>
 
@@ -56,8 +54,10 @@ export default {
   components:{CreateRule},
   data() {
     return {
+      loading: false,
       rulesRadio:0,
       dateTimerRange:'',
+      ddl:'',
       nameRules:[
         {
           title:'默认规则',
@@ -89,7 +89,6 @@ export default {
       form: {
         name: '',
         number:'',
-
       }
     }
   },
@@ -97,8 +96,35 @@ export default {
 
   },
   methods:{
+    test(){
+      console.log(this.ddl)
+    },
     onSubmit() {
-      console.log('submit!');
+      //console.log('submit!');
+      this.loading = true
+      this.$axios({
+        method: "post",
+        url: "/file-receive/create",
+        responseType: "json",
+        data:{
+          ddl: this.ddl,
+          jsonNameRules: this.nameRules[this.rulesRadio],
+          num: this.form.number,
+          zipName: this.form.name
+        }
+      }).then(
+          (res) => {
+            if (res.status === 200) {
+              this.loading = false
+              this.$message.success("创建成功")
+              this.$router.push({name:'CollentList'})
+            }
+          },
+          (err) => {
+            this.loading = false
+            this.$message.error("创建失败" + err)
+          }
+      );
     },
     setDefaultNameRule(){
       this.nameRules[0].rule[4].value = this.form.name

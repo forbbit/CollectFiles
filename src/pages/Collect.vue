@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import Collecting from "@/components/Collecting";
+import Collecting from "@/components/Collect";
 export default {
   name: "Collect",
   components: {

@@ -17,8 +17,8 @@
         仅有七个月的新生</p>
     </hgroup>
     <div class="buttonGroup">
-      <el-button type="primary" class="loginButton" @click="handleMyButtonClick($event,'handIn')">交文件</el-button>
-      <el-button type="success" class="registerButton" @click="handleMyButtonClick($event,'collect')">收文件</el-button>
+      <el-button type="primary" class="loginButton" @click="handleMyButtonClick($event,'handin')">交文件</el-button>
+      <el-button type="success" class="registerButton" @click="handleMyButtonClick($event,'collect/collectlist')">收文件</el-button>
     </div>
 
   </div>

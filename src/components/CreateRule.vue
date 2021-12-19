@@ -120,8 +120,8 @@ export default {
         rule:[
         ]
       },
-      dynamicTags: ['动态一', '动态二', '动态三'],
-      staticTags: ['静态一', '静态二', '静态三'],
+      dynamicTags: ['学号', '姓名', '班级'],
+      staticTags: [' ', '-', '_'],
       staticTagsInputVisible: false,
       staticTagsInputValue:'',
       dynamicTagsInputVisible: false,

@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row class="header">
-      <el-col :span="21">
+      <el-col :span="15">
         <el-menu
           :default-active="defaultActive"
           class="el-menu-demo"
@@ -20,30 +20,30 @@
           <el-menu-item index="/about" :route="{ path: '/about' }"
             >关于</el-menu-item
           >
-          <el-menu-item index="/handIn" :route="{ path: '/handIn' }"
+          <el-menu-item index="/handIn" :route="{ path: '/handin' }"
             >交文件</el-menu-item
           >
           <el-menu-item
             index="/collect"
-            :route="{ path: '/collect/collecting' }"
+            :route="{ path: '/collect/collectlist' }"
             v-show="IsLogin"
             >收文件</el-menu-item
           >
         </el-menu>
       </el-col>
-      <el-col :span="3" class="loginButtonGroup test">
-        <div v-show="!IsLogin">
+      <el-col :span="9" class="loginButtonGroup test">
+        <div v-show="!IsLogin" style="float: right">
           <el-button round size="mini" @click="login" type="primary"
             >登录</el-button
           >
-          <el-button round size="mini" @click="drawer2 = true" type="primary"
+          <el-button round size="mini" @click="register" type="primary"
             >注册</el-button
           >
         </div>
-        <div v-show="IsLogin">
+        <div v-show="IsLogin" style="float: right">
           {{ UserName }}
-          <el-button round size="mini" @click="logout" type="primary"
-            >退出登录</el-button
+          <el-button round size="mini" @click="logout" type="danger" style="margin-left: 20px"
+            >登出</el-button
           >
         </div>
       </el-col>
@@ -94,19 +94,24 @@ export default {
     }
   },
   methods: {
-    login() {
+    login(e) {
+      this.buttonClickAutoBur(e)
       this.drawer = true;
       //在表单渲染后获取登录验证码
       this.$nextTick(() => {
         this.$refs.login.getCode();
       });
     },
+    register(e) {
+      this.buttonClickAutoBur(e)
+      this.drawer2 = true;
+    },
     logout() {
+
       this.IsLogin = !this.IsLogin;
       this.$axios({
         method: "post",
         url: "/logout",
-        //headers: {'content-type':'application/x-www-form-urlencoded'},
       })
         .then((res) => console.log(res))
         .catch((err) => console.log(err.response));
@@ -129,7 +134,16 @@ export default {
         this.drawer = msg1;
       }
     },
+    buttonClickAutoBur(e){
+      let target = e.target
+      if (target.nodeName === 'SPAN') target = e.target.parentNode
+      target.blur()
+    },
+  },
+  mounted() {
+    window.addEventListener( 'beforeunload',this.logout);
   }
+
 };
 </script>
 

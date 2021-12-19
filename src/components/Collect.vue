@@ -1,29 +1,26 @@
 <template>
-  <div>
-    <el-col :span="4">
+  <div style="height: 650px">
+    <el-col :span="3" style="height: 100%">
       <el-menu
           :default-active="defaultActive"
           class="el-menu-vertical-demo"
           router
           text-color="#303133"
           active-text-color="#409EFF"
-
+          style="height: 100%"
       >
-        <el-menu-item index="/collecting" :route="{path:'collecting'}">
-          <i class="el-icon-menu"></i>
-          <span slot="title">正在收取</span>
+        <el-menu-item index="/collectlist" :route="{path:'collectlist'}">
+          <i class="el-icon-files"></i>
+          <span slot="title">所有收取</span>
         </el-menu-item>
-        <el-menu-item index="/collected" :route="{path:'collected'}">
-          <i class="el-icon-menu"></i>
-          <span slot="title">收取完成</span>
-        </el-menu-item>
+
         <el-menu-item index="/create" :route="{path:'create'}">
-          <i class="el-icon-menu"></i>
+          <i class="el-icon-plus"></i>
           <span slot="title">新建收取</span>
         </el-menu-item>
       </el-menu>
     </el-col>
-    <el-col :span="20">
+    <el-col :span="21" style="height: 100%">
       <router-view/>
     </el-col>
   </div>

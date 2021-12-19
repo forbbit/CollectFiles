@@ -4,8 +4,7 @@ import IndexContent from "@/pages/IndexContent";
 import About from "@/pages/About";
 import HandIn from "@/pages/HandIn";
 import Collect from "@/pages/Collect";
-import CollectingList from "@/components/CollectingList";
-import CollectCompleteList from "@/components/CollectCompleteList";
+import CollectingList from "@/components/CollectList";
 import CreateCollect from "@/components/CreateCollect";
 export default new VueRouter({
     mode:'history',
@@ -21,7 +20,7 @@ export default new VueRouter({
             component:About
         },
         {
-            path:'/handIn',
+            path:'/handin',
             name:'HandIn',
             component:HandIn
         },
@@ -31,15 +30,11 @@ export default new VueRouter({
             component:Collect,
             children:[
                 {
-                    path:'collecting',
-                    name:'Collenting',
+                    path:'collectlist',
+                    name:'CollectList',
                     component:CollectingList
                 },
-                {
-                    path:'collected',
-                    name:'Collected',
-                    component:CollectCompleteList
-                },
+
                 {
                     path:'create',
                     name:'Create',
