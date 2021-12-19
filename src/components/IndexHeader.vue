@@ -3,7 +3,7 @@
     <el-row class="header">
       <el-col :span="21">
         <el-menu
-          :default-active="$route.name"
+          :default-active="defaultActive"
           class="el-menu-demo"
           mode="horizontal"
           router
@@ -12,20 +12,20 @@
             ><img src="../assets/logo.png" class="headerLogo" alt="logo"
           /></el-menu-item>
           <el-menu-item
-            index="IndexContent"
+            index="/"
             :route="{ path: '/' }"
             name="indexContent"
             >主页</el-menu-item
           >
-          <el-menu-item index="About" :route="{ path: '/about' }"
+          <el-menu-item index="/about" :route="{ path: '/about' }"
             >关于</el-menu-item
           >
-          <el-menu-item index="HandIn" :route="{ path: '/handIn' }"
+          <el-menu-item index="/handIn" :route="{ path: '/handIn' }"
             >交文件</el-menu-item
           >
           <el-menu-item
-            index="Collect"
-            :route="{ path: '/collect' }"
+            index="/collect"
+            :route="{ path: '/collect/collecting' }"
             v-show="IsLogin"
             >收文件</el-menu-item
           >
@@ -86,6 +86,12 @@ export default {
       UserName: "",
       IsLogin: false,
     };
+  },
+  computed:{
+    defaultActive(){
+      // console.log(this.$route.path.split('/'))
+      return '/' + this.$route.path.split('/')[1];
+    }
   },
   methods: {
     login() {
