@@ -117,7 +117,7 @@ export default {
             if (res.status === 200) {
               this.loading = false
               this.$message.success("创建成功")
-              this.$router.push({name:'CollentList'})
+              this.$router.push({name:'CollectList'})
             }
           },
           (err) => {

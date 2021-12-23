@@ -1,8 +1,13 @@
 <template>
-  <div class="fileCodeInputerDiv">
-    <el-input class="fileCodeInputer" v-model="input" placeholder="请输入文件码" spellcheck="false">
-      <el-button slot="append" :disabled="isHasCode">进入提交</el-button>
-    </el-input>
+  <div>
+    <div class="fileCodeInputerDiv" >
+      <el-input class="fileCodeInputer" v-model="input" placeholder="请输入文件码" spellcheck="false">
+        <el-button slot="append" :disabled="isHasCode">进入提交</el-button>
+      </el-input>
+    </div>
+    <div>
+
+    </div>
   </div>
 </template>
 
