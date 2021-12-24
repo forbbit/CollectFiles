@@ -4,7 +4,7 @@ import IndexContent from "@/pages/IndexContent";
 import About from "@/pages/About";
 import HandIn from "@/pages/HandIn";
 import Collect from "@/pages/Collect";
-import CollectingList from "@/components/CollectList";
+import CollectList from "@/components/CollectList";
 import CreateCollect from "@/components/CreateCollect";
 export default new VueRouter({
     mode:'history',
@@ -32,7 +32,7 @@ export default new VueRouter({
                 {
                     path:'collectlist',
                     name:'CollectList',
-                    component:CollectingList
+                    component:CollectList
                 },
 
                 {

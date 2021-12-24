@@ -1,24 +1,5 @@
 <template>
   <div>
-    <!-- 提示：方案一 -->
-    <!-- <div v-if="trueshow">
-      <el-result icon="success" title="登录成功" subTitle="请根据提示进行操作">
-        <template slot="extra">
-          <el-button type="primary" size="medium" @click="trueclose"
-            >返回首页</el-button
-          >
-        </template>
-      </el-result>
-    </div>
-    <div v-if="falseshow">
-      <el-result icon="error" title="登陆失败！" :subTitle="errtitle">
-        <template slot="extra">
-          <el-button type="primary" size="medium" @click="falseclose"
-            >重新登录</el-button
-          >
-        </template>
-      </el-result>
-    </div> -->
     <el-form
       label-position="left"
       label-width="80px"
@@ -63,7 +44,6 @@
   </div>
 </template>
 <script>
-// import qs from "qs";
 export default {
   name: "LoginIn",
   props: ["drawer"],
