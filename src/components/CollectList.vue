@@ -75,33 +75,43 @@
       </el-table-column>
       <el-table-column label="操作" fixed="right" min-width="150" align="center">
         <template slot-scope="scope">
-          <div v-if="scope.row.finished">
-            <el-dropdown
-                style="width: 100%"
-                split-button size="small"
-                @command="(command) => handleCommand(command, scope.row)"
-                @click="download($event, scope.row)"
-            >
-              打包下载
-              <el-dropdown-menu>
-                <el-dropdown-item command="delete">删除任务</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </div>
-          <div v-else>
-            <el-dropdown
-                style="width: 100%"
-                split-button size="small"
-                @command="(command) => handleCommand(command, scope.row)"
-                @click="endCollect($event, scope.row)"
-            >
-              结束收取
-              <el-dropdown-menu>
-                <el-dropdown-item command="download">打包下载</el-dropdown-item>
-                <el-dropdown-item command="delete">删除任务</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </div>
+					<div v-if="isDownloading === scope.row.id">
+						正在下载...
+					</div>
+					<div v-else>
+						<div v-if="scope.row.finished">
+							<el-dropdown
+									style="width: 100%"
+									split-button size="small"
+									@command="(command) => handleCommand(command, scope.row)"
+									@click="download($event, scope.row)"
+									:disabled="isDownloading !== -1"
+							>
+								打包下载
+								<el-dropdown-menu>
+									<el-dropdown-item command="delete">删除任务</el-dropdown-item>
+								</el-dropdown-menu>
+							</el-dropdown>
+						</div>
+						<div v-else>
+							<el-dropdown
+									style="width: 100%"
+									split-button size="small"
+									@command="(command) => handleCommand(command, scope.row)"
+									@click="endCollect($event, scope.row)"
+									:disabled="isDownloading !== -1"
+							>
+								结束收取
+								<el-dropdown-menu>
+									<el-dropdown-item command="download">打包下载</el-dropdown-item>
+									<el-dropdown-item command="delete">删除任务</el-dropdown-item>
+								</el-dropdown-menu>
+							</el-dropdown>
+						</div>
+					</div>
+
+
+
 
         </template>
       </el-table-column>
@@ -121,6 +131,7 @@ export default {
   data() {
     return {
       //userId:48,
+			isDownloading:-1,
       loading:true,
       tableData: [],
       showActives: false,
@@ -130,6 +141,7 @@ export default {
     }
   },
   methods: {
+
     buttonClickAutoBur(e){
       let target = e.target
       if (target.nodeName === 'SPAN') target = e.target.parentNode
@@ -161,7 +173,13 @@ export default {
     handleCommand(command, row) {
       switch (command){
         case 'download':
-          //console.log(command, row.id);
+					this.$notify.info({
+						title: '正在下载',
+						message: '正在后台下载文件，请不要退出',
+						showClose: false
+					});
+					this.isDownloading = row.id
+					//console.log(command, row.id);
           this.$axios({
             method: "get",
             url: "/file-receive/download",
@@ -170,7 +188,12 @@ export default {
           }).then(
               (res) => {
                 if (res.status === 200) {
-                  this.$message("正在下载")
+									this.$notify.success({
+										title: '下载成功',
+										message: '下载成功了！请查看',
+										showClose: false
+									});
+									this.isDownloading = -1
                   let blob = new Blob([res.data], {type: "application/zip"});
                   const fileName = row.subjectName + ".zip"
                   if ('download' in document.createElement('a')) { // 非IE下载
@@ -188,7 +211,12 @@ export default {
                 }
               },
               (err) => {
-                this.$message.error("下载失败" + err)
+								this.$notify.error({
+									title: '下载失败',
+									message: '下载失败！' + err,
+									showClose: false
+								});
+								this.isDownloading = -1
               }
           );
           break;
