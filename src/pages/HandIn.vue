@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
   <div class="fileCodeInputerDiv">
     <div v-if="IsShow">
       <el-input
@@ -45,16 +44,6 @@
           <el-button type="primary" @click="Summitfile">提交</el-button>
         </el-form-item>
       </el-form>
-=======
-  <div>
-    <div class="fileCodeInputerDiv" >
-      <el-input class="fileCodeInputer" v-model="input" placeholder="请输入文件码" spellcheck="false">
-        <el-button slot="append" :disabled="isHasCode">进入提交</el-button>
-      </el-input>
-    </div>
-    <div>
-
->>>>>>> 5b655f2dc8b30f1f2b286500790ba7823d9fb145
     </div>
   </div>
 </template>
