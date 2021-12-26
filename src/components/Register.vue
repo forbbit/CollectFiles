@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin:20px">
     <!-- 方案一 -->
     <!-- <div v-if="trueshow">
       <el-result
@@ -44,7 +44,7 @@
       <el-form-item label="确认密码" prop="pas2">
         <el-input type="password" v-model="form.pas2"></el-input>
       </el-form-item>
-      <el-form-item style="text-align: center">
+      <el-form-item style="text-align: right">
         <el-button type="primary" @click="reg">注册</el-button>
         <el-button type="info" @click="reset">重置</el-button>
       </el-form-item>
