@@ -112,7 +112,7 @@ export default {
         method: "post",
         url: "/logout",
       })
-        .then((res) => console.log(res))
+        .then((res) => console.log('logout'+res))
         .catch((err) => console.log(err.response));
     },
     xchange(msg) {
@@ -128,6 +128,8 @@ export default {
         // console.log(this.UserId)
         //显示用户名
         this.UserName = msg3;
+				sessionStorage.setItem('UserName',msg3)
+				sessionStorage.setItem('IsLogin','true')
       } else {
         //失败时直接返回原界面
         this.drawer = msg1;
@@ -140,6 +142,10 @@ export default {
     },
   },
   mounted() {
+		if (sessionStorage.getItem('UserName')){
+			this.UserName = sessionStorage.getItem('UserName')
+			this.IsLogin = sessionStorage.getItem('IsLogin')
+		}
     window.addEventListener( 'beforeunload',this.logout);
   }
 
