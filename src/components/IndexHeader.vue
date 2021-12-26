@@ -107,7 +107,6 @@ export default {
       this.drawer2 = true;
     },
     logout() {
-
       this.IsLogin = !this.IsLogin;
       this.$axios({
         method: "post",

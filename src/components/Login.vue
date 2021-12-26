@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin:20px">
     <el-form
       label-position="left"
       label-width="80px"
@@ -36,7 +36,7 @@
         </div>
       </el-form-item>
 
-      <el-form-item style="text-align: center">
+      <el-form-item style="text-align: right">
         <el-button type="primary" @click="login">登录</el-button>
         <el-button type="info" @click="reset">重置</el-button>
       </el-form-item>
