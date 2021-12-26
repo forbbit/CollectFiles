@@ -28,7 +28,7 @@ export default {
       target.blur();
       if (
         which === "collect/collectlist" &&
-        sessionStorage.getItem('UserId') === null
+        sessionStorage.getItem('IsLogin') === null
       ) {
         this.$message.error("请先登录");
       } else {

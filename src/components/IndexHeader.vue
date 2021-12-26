@@ -20,7 +20,7 @@
           <el-menu-item index="/about" :route="{ path: '/about' }"
             >关于</el-menu-item
           >
-          <el-menu-item index="/handIn" :route="{ path: '/handin' }"
+          <el-menu-item index="/handin" :route="{ path: '/handin' }"
             >交文件</el-menu-item
           >
           <el-menu-item
@@ -112,7 +112,11 @@ export default {
         method: "post",
         url: "/logout",
       })
-        .then((res) => console.log('logout'+res))
+        .then((res) => {
+					console.log('logout'+res)
+					sessionStorage.removeItem("IsLogin")
+					sessionStorage.removeItem("UserName")
+				})
         .catch((err) => console.log(err.response));
     },
     xchange(msg) {
