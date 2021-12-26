@@ -1,7 +1,6 @@
 <template>
-<<<<<<< HEAD
   <div class="fileCodeInputerDiv">
-    <div v-if="IsShow">
+    <div v-if="IsShow" style="margin: 200px auto; width: 400px">
       <el-input
         class="fileCodeInputer"
         v-model="input"
@@ -13,48 +12,59 @@
         >
       </el-input>
     </div>
-    <div v-if="!IsShow">
-      <el-form label-position="left" label-width="80px" :model="ruleform" ref="ruleform">
-        <el-page-header @back="goBack" :content="Txt"></el-page-header>
-        <el-form-item
-          v-for="(i, index) in ruleform.Rule"
-          :key="index"
-          :prop="`Rule.${index}.forms`"
-          :rules="{ required: true, message: '不能为空', trigger: 'blur' }"
-          :label="i.value"
+    <div v-if="!IsShow" style="width: 100%; height: 100%">
+      <el-page-header
+        @back="goBack"
+        :content="Txt"
+        style="margin: 20px 0 0 10px; width: 100%"
+      ></el-page-header>
+      <div
+        style="
+          width: 400px;
+          height: 100%;
+          text-align: center;
+          margin: 100px auto;
+        "
+      >
+        <el-form
+          label-position="left"
+          label-width="80px"
+          :model="ruleform"
+          ref="ruleform"
         >
-          <el-input v-model="i.forms"></el-input>
-        </el-form-item>
-      </el-form>
-      <el-form>
-        <el-form-item ref="upload_attach_item" label="文件上传:" size="small">
-          <el-upload
-            class="upload-demo"
-            action
-            :limit="1"
-            :on-change="handleChange"
-            :on-exceed="handleExceed"
-            :file-list="fileList"
-            :auto-upload="false"
+          <el-form-item
+            v-for="(i, index) in ruleform.Rule"
+            :key="index"
+            :prop="`Rule.${index}.forms`"
+            :rules="{ required: true, message: '不能为空', trigger: 'blur' }"
+            :label="i.value"
           >
-            <el-button size="small" type="primary">上传文件</el-button>
-            <div slot="tip" class="el-upload__tip">上传文件不超过50mb</div>
-          </el-upload>
-        </el-form-item>
-        <el-form-item style="text-align: center">
-          <el-button type="primary" @click="Summitfile">提交</el-button>
-        </el-form-item>
-      </el-form>
-=======
-  <div>
-    <div class="fileCodeInputerDiv" >
-      <el-input class="fileCodeInputer" v-model="input" placeholder="请输入文件码" spellcheck="false">
-        <el-button slot="append" :disabled="isHasCode">进入提交</el-button>
-      </el-input>
-    </div>
-    <div>
-
->>>>>>> 5b655f2dc8b30f1f2b286500790ba7823d9fb145
+            <el-input v-model="i.forms"></el-input>
+          </el-form-item>
+        </el-form>
+        <el-form>
+          <el-form-item ref="upload_attach_item" size="small">
+            <el-upload
+              class="upload-demo"
+              action
+              :limit="1"
+              :on-change="handleChange"
+              :on-exceed="handleExceed"
+              :file-list="fileList"
+              :auto-upload="false"
+            >
+              <div style="width:100%">
+                <el-button size="small" style="width:100%"
+                  >点击上传文件,不超过50MB</el-button
+                >
+              </div>
+            </el-upload>
+          </el-form-item>
+          <el-form-item style="text-align: center">
+            <el-button type="primary" @click="Summitfile">提交</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
     </div>
   </div>
 </template>
@@ -76,12 +86,12 @@ export default {
       //行头数据
       Txt: "",
       //新规则数组
-      ruleform:{
-         Rule: "",
-      }
+      ruleform: {
+        Rule: "",
+      },
     };
   },
-  mounted(){
+  mounted() {
     //在vue加载完成后设置绑定forms
     this.setforms();
   },
@@ -125,9 +135,10 @@ export default {
             //console.log(this.fid);
             let rule = res.data.simpleData.jsonNameRules.rule;
             //行头显示规则
-            for (var j = 0; j < rule.length; j++) {
-              this.Txt = this.Txt + rule[j].value;
-            }
+            // for (var j = 0; j < rule.length; j++) {
+            //   this.Txt = this.Txt + rule[j].value;
+            // }
+            this.Txt = res.data.simpleData.zipName;
             // console.log(this.Txt)
             //构建changeAble为false数组
             this.flaserule = rule.filter((item) => {
@@ -154,7 +165,9 @@ export default {
       //文件名整理
       for (var k = 0; k < this.ruleform.Rule.length; k++) {
         this.form.filename =
-          this.form.filename + this.ruleform.Rule[k].forms + this.flaserule[0].value;
+          this.form.filename +
+          this.ruleform.Rule[k].forms +
+          this.flaserule[0].value;
       }
       this.form.filename =
         this.form.filename + this.flaserule[this.flaserule.length - 1].value;
@@ -193,7 +206,9 @@ export default {
 
 <style scoped>
 .fileCodeInputerDiv {
-  width: 400px;
-  margin: 200px auto;
+  width: 100%;
+}
+.el-upload{
+  width:100%;
 }
 </style>
